@@ -1,0 +1,122 @@
+/* style.css — retro CRT terminal look.
+ * JetBrains Mono (SIL OFL 1.1, see fonts/OFL.txt) is self-hosted: no third-party requests,
+ * which also keeps the strict Content-Security-Policy simple. Two subsets (Latin + Latin Extended)
+ * so browsers only download what the page actually uses. */
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 100 800;
+  font-display: swap;
+  src: url('fonts/jetbrains-mono-latin-ext-wght-normal.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 100 800;
+  font-display: swap;
+  src: url('fonts/jetbrains-mono-latin-wght-normal.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* Theme colours as custom properties; `theme amber|mono` switches them via [data-theme] */
+:root {
+  --bg: #0a0c0a;
+  --fg: #33ff66;
+  --dim: #1f9e41;
+  --accent: #b8ff9a;
+  --glow: rgba(51, 255, 102, .35);
+  --font: 'JetBrains Mono', 'Fira Code', ui-monospace, Consolas, monospace;
+}
+:root[data-theme="amber"] { --bg: #0f0a05; --fg: #ffb454; --dim: #b3702a; --accent: #ffe0a8; --glow: rgba(255, 180, 84, .3); }
+:root[data-theme="mono"]  { --bg: #0d0d0d; --fg: #e6e6e6; --dim: #8a8a8a; --accent: #ffffff; --glow: rgba(255, 255, 255, .15); }
+
+* { box-sizing: border-box; }
+::selection { background: var(--fg); color: var(--bg); }
+
+html, body { margin: 0; background: #000; }
+body {
+  height: 100vh; height: 100dvh;
+  display: flex; justify-content: center; align-items: center;
+  padding: clamp(0px, 2vw, 24px);
+  font: 15px/1.5 var(--font);
+  color: var(--fg);
+}
+
+.term {
+  position: relative;
+  width: min(960px, 100%);
+  height: 100%; max-height: 860px;
+  display: flex; flex-direction: column;
+  background: var(--bg);
+  border: 1px solid var(--dim);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 0 40px var(--glow);
+}
+/* CRT scanlines */
+.term::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: repeating-linear-gradient(0deg, rgba(0, 0, 0, .16) 0 1px, transparent 1px 3px);
+}
+
+/* Window title bar */
+.bar {
+  display: flex; align-items: center; gap: 12px;
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--dim);
+  color: var(--dim); font-size: 13px;
+}
+.dots { display: flex; gap: 6px; }
+.dots i { width: 10px; height: 10px; border-radius: 50%; background: var(--dim); opacity: .6; }
+.title { flex: 1; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.tools { display: flex; gap: 6px; }
+
+/* Buttons: toolbar, quick-command chips */
+button { font: inherit; color: var(--fg); background: transparent; cursor: pointer; }
+.tool, .chips .cmd { border: 1px solid var(--dim); border-radius: 4px; padding: 2px 10px; }
+.tool:hover, .chips .cmd:hover,
+.tool:focus-visible, .chips .cmd:focus-visible { background: var(--fg); color: var(--bg); outline: none; }
+
+/* Scrollable output area */
+.screen {
+  flex: 1; overflow-y: auto; padding: 14px 16px; cursor: text;
+  text-shadow: 0 0 6px var(--glow);
+  scrollbar-width: thin; scrollbar-color: var(--dim) transparent;
+}
+.block { margin: 0 0 .6em; }
+.ln { white-space: pre-wrap; overflow-wrap: anywhere; }
+.ind { display: block; padding-left: 4ch; }
+
+.k { color: var(--accent); font-weight: 700; }
+.d { color: var(--dim); }
+.err { color: #ff5f56; }
+a { color: var(--accent); }
+
+/* inline clickable command */
+.cmd { border: 0; border-bottom: 1px dashed var(--dim); padding: 0; }
+.cmd:hover, .cmd:focus-visible { color: var(--accent); outline: none; border-bottom-style: solid; }
+
+/* Prompt + input line */
+.line { display: flex; align-items: center; gap: 1ch; }
+.prompt, .echo .prompt { color: var(--accent); white-space: nowrap; }
+#in {
+  flex: 1; min-width: 0; padding: 0; border: 0; outline: 0;
+  background: transparent; color: var(--fg); font: inherit; text-shadow: inherit;
+  caret-color: var(--fg); caret-shape: block;
+}
+
+/* neofetch */
+.fetch { display: flex; flex-wrap: wrap; gap: 2ch; margin: 0 0 1.2em; }
+.logo { margin: 0; font: inherit; line-height: 1.25; color: var(--accent); }
+.info { flex: 1 1 32ch; min-width: 0; }
+
+/* Quick-command bar at the bottom */
+.chips { display: flex; flex-wrap: wrap; gap: 6px; padding: 8px 12px; border-top: 1px solid var(--dim); }
+
+/* Phones: edge-to-edge terminal, smaller text */
+@media (max-width: 600px) {
+  body { font-size: 13px; padding: 0; }
+  .term { border-radius: 0; border-width: 0; max-height: none; }
+  .dots { display: none; }
+}

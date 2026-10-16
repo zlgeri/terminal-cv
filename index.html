@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ZLgeri@neumann: ~</title>
+  <meta name="description" content="Gergő (ZLgeri) retró terminál portfóliója: Linux, hálózatok, hardverek és saját projektek. Magyar / English.">
+  <meta name="theme-color" content="#0a0c0a">
+  <link rel="canonical" href="https://zlgeri.com/">
+
+  <!-- Open Graph / social preview card -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="ZLgeri">
+  <meta property="og:title" content="Gergő · ZLgeri — terminál portfólió">
+  <meta property="og:description" content="Linux, hálózatok, hardverek és projektek, retró terminál stílusban. Magyar / English.">
+  <meta property="og:url" content="https://zlgeri.com/">
+  <meta property="og:image" content="https://zlgeri.com/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="ZLgeri@neumann:~$ whoami — Gergő retró terminál portfóliója">
+  <meta property="og:locale" content="hu_HU">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="icon" href="favicon.ico" sizes="32x32">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <!-- Preload the main font so the first paint already uses it -->
+  <link rel="preload" href="fonts/jetbrains-mono-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="term" aria-label="Terminal portfolio">
+    <header class="bar">
+      <span class="dots" aria-hidden="true"><i></i><i></i><i></i></span>
+      <span class="title" id="title"></span>
+      <span class="tools">
+        <button type="button" class="tool" id="themeBtn">theme</button>
+        <button type="button" class="tool" id="langBtn">EN</button>
+      </span>
+    </header>
+
+    <section class="screen" id="screen">
+      <div id="out" aria-live="polite"></div>
+      <label class="line">
+        <span class="prompt" id="prompt"></span>
+        <input id="in" type="text" autocomplete="off" autocapitalize="off" autocorrect="off"
+               spellcheck="false" enterkeyhint="send" aria-label="Command">
+      </label>
+    </section>
+
+    <nav class="chips" id="chips" aria-label="Quick commands"></nav>
+  </main>
+
+  <noscript>This portfolio needs JavaScript. It is a terminal, after all.</noscript>
+  <!-- Order matters: i18n.js defines CONFIG, HARDWARE and I18N, which terminal.js uses -->
+  <script src="i18n.js"></script>
+  <script src="terminal.js"></script>
+</body>
+</html>

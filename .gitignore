@@ -1,0 +1,6 @@
+# Editor and OS leftovers
+*~
+*.swp
+.directory
+.DS_Store
+.vscode/
